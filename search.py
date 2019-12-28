@@ -4,6 +4,7 @@
 # import the necessary packages
 from image_search.searcher import Searcher
 from image_processing.features_extractor import FeaturesExtractor
+from image_retrieval.tfidf import TFIDF
 
 import argparse
 import cv2
@@ -19,6 +20,8 @@ ap.add_argument("-c", "--clusters", required = True,
 	help = "Path to where the clusters file is stored")
 ap.add_argument("-d", "--dataset", required = True,
 	help = "Path to the dataset")
+ap.add_argument("-i", "--index", required = True,
+	help = "Path to the index")
 
 args = vars(ap.parse_args())
 
@@ -36,9 +39,14 @@ fread.close()
 
 bovw = cluster.predict(features)
 
+# Calculate tf-idf for query image
+# N = 805 because we had calculated it in building tf-idf vector step.
+vct = TFIDF(args["index"])
+tfIDF_query = vct.calTF_IDFQuery(bovw)
+
 # perform the search
 searcher = Searcher(args["weights"])
-results = searcher.search(bovw)
+results = searcher.search(tfIDF_query)
 
 # display the query
 cv2.imshow("Query", query)

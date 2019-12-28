@@ -1,5 +1,7 @@
 import pickle
 import math
+import csv
+import numpy as np
 
 class TFIDF():
     def __init__(self, indexPath):
@@ -29,4 +31,28 @@ class TFIDF():
         idfDict = {}
         for vword in self.vwordDict:
             idfDict[vword] = 1 + math.log(numDocs / float(len(self.index[vword])))
+        
+        # Save idf values because we just need to cal it once
+        file = open("output/idf.csv", "w")
+        for vword in idfDict:
+            file.write("%s,%s\n" % (vword, str(idfDict[vword])))
+        file.close()
         return idfDict
+
+    def calTFQuery(self, features):
+        tfDict = {}
+        size = len(features)
+        for vwrod in self.vwordDict:
+            tfDict[vwrod] = (features == vwrod).sum() / size
+        print(tfDict)
+        return tfDict
+
+    def calTF_IDFQuery(self, features):
+        tf = self.calTFQuery(features)
+        tfIdf = []
+        with open("output/idf.csv") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                tfIdf.append(tf[int(row[0])] * float(row[1]))
+        return np.asarray(tfIdf)
+        
