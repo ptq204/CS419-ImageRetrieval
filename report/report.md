@@ -1,7 +1,7 @@
 ## **Extract feature**  
 
 ```py
-python3 feature.py --dataset dataset --features_db output/features.csv
+python3 feature.py --dataset oxford --features_db output/features.csv
 ```  
 
 ## **Cluster**  
@@ -31,5 +31,5 @@ python3 vect.py --bovw output/bovw.csv --index output/index.pickle --vector outp
 ## **Search an image**  
 
 ```py
-python3 search.py --weights output/weight.csv --clusters output/clusters.pickle --dataset dataset --query queries/115100.png
+python3 search.py --weights output/weight.csv --clusters output/clusters.pickle --index output/index.pickle  --dataset oxford --query queries/108100.png
 ```

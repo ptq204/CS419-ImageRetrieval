@@ -25,14 +25,14 @@ output = open(args["features_db"], "w")
 
 # use glob to grab the image paths and loop over them
 data = []
-for imagePath in glob.glob(args["dataset"] + "/*.png"):
+for imagePath in glob.glob(args["dataset"] + "/*.jpg"):
 	# extract the image ID (i.e. the unique filename) from the image
 	# path and load the image itself
 	imageID = imagePath[imagePath.rfind("/") + 1:]
 	image = cv2.imread(imagePath)
 
 	# describe the image
-	features = cd.describe(image)
+	features = cd.describe_SIFT(image)
 
 	# tmp = [str([x for x in f]) for f in features]
 

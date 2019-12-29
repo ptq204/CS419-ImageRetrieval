@@ -3,6 +3,7 @@ import numpy as np
 import csv
 import cv2
 from image_processing.features_extractor import FeaturesExtractor
+from scipy import spatial
 
 class Searcher:
 	def __init__(self, weightPath):
@@ -19,7 +20,8 @@ class Searcher:
 
 			for row in reader:
 				features = [float(x) for x in row[1:]]
-				d = self.chi2_distance(features, queryFeatures)
+				# d = self.chi2_distance(features, queryFeatures)
+				d = self.cosine_distance(features, queryFeatures)
 				results[row[0]] = d
 
 			f.close()
@@ -39,3 +41,6 @@ class Searcher:
 
 		# return the chi-squared distance
 		return d
+	
+	def cosine_distance(self, vectA, vectB):
+		return spatial.distance.cosine(vectA, vectB)

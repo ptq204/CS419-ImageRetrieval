@@ -20,11 +20,11 @@ with open(args["features_db"]) as f:
     reader = csv.reader(f)
 
     for row in reader:
-        features = [int(x) for x in row[1:]]
+        features = [float(x) for x in row[1:]]
         features = np.asarray(features)
 
         # each feature produced by ORB method is a vector of length 32
-        features = features.reshape(len(features)//32, 32)
+        features = features.reshape(len(features)//128, 128)
         for p in features:
             data.append(p)
 
@@ -34,7 +34,9 @@ with open(args["features_db"]) as f:
 print('Clustering...')
 data = np.asarray(data)
 
-clt = Cluster(len(data) // 100)
+# numCluster = len(data) // 100
+numCluster = 150
+clt = Cluster(numCluster)
 cluster = clt.cluster(data)
 
 
