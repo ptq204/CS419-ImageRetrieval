@@ -30,7 +30,7 @@ cd = FeaturesExtractor()
 
 # load the query image and describe it
 query = cv2.imread(args["query"])
-features = cd.describe(query)
+features = cd.describe_SIFT(query)
 
 # Build BoVW for query image
 with open(args["clusters"], "rb") as fread:

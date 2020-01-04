@@ -28,11 +28,11 @@ with open(args["features_db"]) as f:
     reader = csv.reader(f)
 
     for row in reader:
-        features = [int(x) for x in row[1:]]
+        features = [float(x) for x in row[1:]]
         features = np.asarray(features)
 
         # each feature produced by ORB method is a vector of length 32
-        features = features.reshape(len(features)//32, 32)
+        features = features.reshape(len(features)//128, 128)
 
         label = cluster.predict(features)
         label = [str(x) for x in label]
